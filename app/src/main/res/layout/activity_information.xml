@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="za.co.jethromuller.imageviewer.InformationActivity"
+    android:id="@+id/information_view">
+
+    <TextView
+        android:text="@string/information_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/information_top_margin"
+        android:textStyle="bold"
+        android:textSize="@dimen/information_text_size"
+        android:linksClickable="false"
+        android:textIsSelectable="false"
+        android:id="@+id/textView_name" />
+
+    <TextView
+        android:text="@string/information_web_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="@dimen/information_text_size"
+        android:linksClickable="true"
+        android:textIsSelectable="false"
+        android:autoLink="web"
+        android:id="@+id/textView_website"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView_name"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/information_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="@dimen/information_text_size"
+        android:linksClickable="true"
+        android:textIsSelectable="false"
+        android:autoLink="email"
+        android:id="@+id/textView_email"
+        android:layout_below="@+id/textView_website"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
