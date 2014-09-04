@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="za.co.jethromuller.imageviewer" >
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,14 @@
         <activity
             android:name=".InformationActivity"
             android:label="@string/title_activity_information"
+            android:parentActivityName=".ImageGalleryActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="za.co.jethromuller.imageviewer.ImageGalleryActivity" />
+        </activity>
+        <activity
+            android:name=".SingleImageView"
+            android:label="@string/title_activity_single_image_view"
             android:parentActivityName=".ImageGalleryActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

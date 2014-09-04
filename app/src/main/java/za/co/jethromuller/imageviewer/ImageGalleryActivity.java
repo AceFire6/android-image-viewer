@@ -2,13 +2,13 @@ package za.co.jethromuller.imageviewer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 
 public class ImageGalleryActivity extends Activity {
@@ -20,9 +20,21 @@ public class ImageGalleryActivity extends Activity {
 
         GridView imageGrid = (GridView) findViewById(R.id.gridView);
         imageGrid.setAdapter(new ImageAdapter(this));
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            imageGrid.setNumColumns(4);
+        } else {
+            imageGrid.setNumColumns(6);
+        }
+
+        imageGrid.setHorizontalSpacing(10);
+        imageGrid.setVerticalSpacing(10);
+
         imageGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(ImageGalleryActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                Intent imageIntent = new Intent(ImageGalleryActivity.this, SingleImageView.class);
+                imageIntent.putExtra("za.co.jethromuller.IMAGE_INDEX", position);
+                ImageGalleryActivity.this.startActivity(imageIntent);
             }
         });
     }
