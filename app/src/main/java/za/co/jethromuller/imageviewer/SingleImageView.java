@@ -13,14 +13,20 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class SingleImageView extends Activity implements OnGestureListener {
     public static int IMAGE_INDEX = -1;
     private ImageSwitcher imageView;
     private GestureDetector gestureDetector;
+    private boolean playing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playing = false;
         setContentView(R.layout.activity_single_image_view);
         gestureDetector = new GestureDetector(getBaseContext(), this);
         IMAGE_INDEX = getIntent().getExtras().getInt("za.co.jethromuller.IMAGE_INDEX");
@@ -63,7 +69,40 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     public void startSlideShow(View view) {
+        ImageView slideShowView = ((ImageView) view);
+        if (!playing) {
+            playing = true;
+            slideShowView.setImageResource(R.drawable.pause);
+            runSlideShow();
+        } else {
+            playing = false;
+            slideShowView.setImageResource(R.drawable.start_slideshow);
+        }
+    }
 
+    private void runSlideShow() {
+        if (playing) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                // this code will be executed after 1 second
+                public void run() {
+                    if (playing) {
+                        imageView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                nextImage();
+                            }
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        runSlideShow();
+                    }
+                }
+            }, 2000);
+        }
     }
 
     public int vibrate() {
