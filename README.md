@@ -28,3 +28,9 @@ application directly to your phone.
 ![gallery](gallery.png)
 
 ![single_image_view](single_image.png)
+
+## Acknowledgements
+
+[Sample images](http://developer.android.com/shareables/sample_images.zip) used in the gallery are from the [GridView example](http://developer.android.com/guide/topics/ui/layout/gridview.html) on developer.android.com.
+
+Two additional animation xml files are taken from the Android Open Source Project.
