@@ -21,23 +21,23 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:minHeight="50dp">
 
         <ImageButton
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:id="@+id/prev_button"
             android:enabled="true"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:contentDescription="@string/previous_image_description"
-            android:adjustViewBounds="false"
             android:src="@drawable/prev"
             android:onClick="previousImage"/>
 
         <ImageButton
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:id="@+id/start_slideshow_button"
             android:enabled="true"
             android:layout_gravity="bottom"
@@ -48,7 +48,7 @@
 
         <ImageButton
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:id="@+id/next_button"
             android:enabled="true"
             android:layout_gravity="bottom"
