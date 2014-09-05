@@ -50,8 +50,12 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     public void nextImage() {
-        IMAGE_INDEX = IMAGE_INDEX < (ImageAdapter.mThumbIds.length - 1) ? IMAGE_INDEX + 1 :
+        int NEW_IMAGE_INDEX = IMAGE_INDEX < (ImageAdapter.mThumbIds.length - 1) ? IMAGE_INDEX + 1 :
                 vibrate();
+        if (NEW_IMAGE_INDEX == -1) {
+            return;
+        }
+        IMAGE_INDEX = NEW_IMAGE_INDEX;
         imageView.setInAnimation(this, R.anim.slide_in_right);
         imageView.setOutAnimation(this, R.anim.slide_out_left);
         setImage();
@@ -62,7 +66,11 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     public void previousImage() {
-        IMAGE_INDEX = IMAGE_INDEX > 0 ? IMAGE_INDEX - 1 : vibrate();
+        int NEW_IMAGE_INDEX = IMAGE_INDEX > 0 ? IMAGE_INDEX - 1 : vibrate();
+        if (NEW_IMAGE_INDEX == -1) {
+            return;
+        }
+        IMAGE_INDEX = NEW_IMAGE_INDEX;
         imageView.setInAnimation(this, android.R.anim.slide_in_left);
         imageView.setOutAnimation(this, android.R.anim.slide_out_right);
         setImage();
@@ -106,8 +114,12 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     public int vibrate() {
+        if (playing) {
+            IMAGE_INDEX = (IMAGE_INDEX + 1) % ImageAdapter.mThumbIds.length;
+            return IMAGE_INDEX;
+        }
         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
-        return IMAGE_INDEX;
+        return -1;
     }
 
     private void setImage() {
