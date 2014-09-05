@@ -25,6 +25,6 @@ application directly to your phone.
 
 5. Run the application on your phone.
 
-!(gallery)[gallery.png]
+![gallery](gallery.png)
 
-!(single_image_view)[single_image.png]
+![single_image_view](single_image.png)
