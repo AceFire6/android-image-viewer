@@ -22,6 +22,7 @@ public class SingleImageView extends Activity implements OnGestureListener {
     private ImageSwitcher imageView;
     private GestureDetector gestureDetector;
     private boolean playing;
+    private Timer slideShowTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,33 +85,26 @@ public class SingleImageView extends Activity implements OnGestureListener {
             runSlideShow();
         } else {
             playing = false;
+            slideShowTimer.cancel();
             slideShowView.setImageResource(R.drawable.start_slideshow);
         }
     }
 
     private void runSlideShow() {
-        if (playing) {
-            new Timer().schedule(new TimerTask() {
-                @Override
-                // this code will be executed after 1 second
-                public void run() {
-                    if (playing) {
-                        imageView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                nextImage();
-                            }
-                        });
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+        slideShowTimer = new Timer();
+        slideShowTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (playing) {
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            nextImage();
                         }
-                        runSlideShow();
-                    }
+                    });
                 }
-            }, 2000);
-        }
+            }
+        }, 800, 2000);
     }
 
     public int vibrate() {
