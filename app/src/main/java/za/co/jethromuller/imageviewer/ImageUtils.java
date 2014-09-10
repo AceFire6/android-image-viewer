@@ -71,7 +71,7 @@ public class ImageUtils {
     }
 
     /**
-     * From: http://stackoverflow.com/a/3549021
+     * Adapted From: http://stackoverflow.com/a/3549021
      */
     public Bitmap decodeFile(Uri uri, int screenWidth){
         Bitmap b = null;
