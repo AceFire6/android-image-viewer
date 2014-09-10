@@ -5,11 +5,12 @@
 
 ## Description
 
-Basic Image Viewer application. Shows all images in the root directory of your device in a grid.
-If you click an image, it makes it larger and shows the controls for next and previous image as well
-as the button that starts the slideshow.
+Basic Image Viewer application. Shows all images in the root directory of your device.
+Each image is displayed above the navigation controls.
 
-It has gesture functionality too. You can swipe to change the images.
+There is a button for previous, start slideshow and next.
+
+It has basic gesture functionality in that you can swipe to change images.
 
 ## Instructions
 
@@ -25,12 +26,4 @@ application directly to your phone.
 
 5. Run the application on your phone.
 
-![gallery](gallery.png)
-
 ![single_image_view](single_image.png)
-
-## Acknowledgements
-
-[Sample images](http://developer.android.com/shareables/sample_images.zip) used in the gallery are from the [GridView example](http://developer.android.com/guide/topics/ui/layout/gridview.html) on developer.android.com.
-
-Two additional animation xml files are taken from the Android Open Source Project.
