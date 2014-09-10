@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="za.co.jethromuller.imageviewer" >
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -9,30 +11,24 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ImageGalleryActivity"
-            android:label="@string/app_name" >
+            android:name=".SingleImageView"
+            android:label="@string/title_activity_single_image_view">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".InformationActivity"
             android:label="@string/title_activity_information"
-            android:parentActivityName=".ImageGalleryActivity" >
+            android:parentActivityName=".SingleImageView" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="za.co.jethromuller.imageviewer.ImageGalleryActivity" />
+                android:value="za.co.jethromuller.imageviewer.SingleImageView" />
         </activity>
-        <activity
-            android:name=".SingleImageView"
-            android:label="@string/title_activity_single_image_view"
-            android:parentActivityName=".ImageGalleryActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="za.co.jethromuller.imageviewer.ImageGalleryActivity" />
-        </activity>
+
     </application>
 
 </manifest>

@@ -1,28 +1,31 @@
 package za.co.jethromuller.imageviewer;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.ViewSwitcher;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class SingleImageView extends Activity implements OnGestureListener {
-    public static int IMAGE_INDEX = -1;
-    private ImageSwitcher imageView;
+    public static int IMAGE_INDEX = 0;
+    private ImageView imageView;
     private GestureDetector gestureDetector;
     private boolean playing;
     private Timer slideShowTimer;
+    private ImageUtils imageUtils;
+    private Uri[] uris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +33,10 @@ public class SingleImageView extends Activity implements OnGestureListener {
         playing = false;
         setContentView(R.layout.activity_single_image_view);
         gestureDetector = new GestureDetector(getBaseContext(), this);
-        IMAGE_INDEX = getIntent().getExtras().getInt("za.co.jethromuller.IMAGE_INDEX");
 
-        imageView = ((ImageSwitcher) findViewById(R.id.imageView));
-        imageView.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(SingleImageView.this);
-                imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams
-                        .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                return imageView;
-            }
-        });
-
+        imageView = ((ImageView) findViewById(R.id.imageView));
+        imageUtils = new ImageUtils(getApplicationContext());
+        this.uris = imageUtils.uris;
         setImage();
     }
 
@@ -51,14 +45,12 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     public void nextImage() {
-        int NEW_IMAGE_INDEX = IMAGE_INDEX < (ImageAdapter.mThumbIds.length - 1) ? IMAGE_INDEX + 1 :
+        int NEW_IMAGE_INDEX = IMAGE_INDEX < (imageUtils.uris.length - 1) ? IMAGE_INDEX + 1 :
                 vibrate();
         if (NEW_IMAGE_INDEX == -1) {
             return;
         }
         IMAGE_INDEX = NEW_IMAGE_INDEX;
-        imageView.setInAnimation(this, R.anim.slide_in_right);
-        imageView.setOutAnimation(this, R.anim.slide_out_left);
         setImage();
     }
 
@@ -72,8 +64,6 @@ public class SingleImageView extends Activity implements OnGestureListener {
             return;
         }
         IMAGE_INDEX = NEW_IMAGE_INDEX;
-        imageView.setInAnimation(this, android.R.anim.slide_in_left);
-        imageView.setOutAnimation(this, android.R.anim.slide_out_right);
         setImage();
     }
 
@@ -109,7 +99,7 @@ public class SingleImageView extends Activity implements OnGestureListener {
 
     public int vibrate() {
         if (playing) {
-            IMAGE_INDEX = (IMAGE_INDEX + 1) % ImageAdapter.mThumbIds.length;
+            IMAGE_INDEX = (IMAGE_INDEX + 1) % imageUtils.uris.length;
             return IMAGE_INDEX;
         }
         ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(50);
@@ -117,9 +107,11 @@ public class SingleImageView extends Activity implements OnGestureListener {
     }
 
     private void setImage() {
-        setTitle(getResources().getResourceEntryName(ImageAdapter.mThumbIds[IMAGE_INDEX]));
-        imageView.setImageDrawable(getResources().getDrawable(ImageAdapter.mThumbIds[IMAGE_INDEX]));
-        getIntent().putExtra("za.co.jethromuller.IMAGE_INDEX", IMAGE_INDEX);
+        setTitle(imageUtils.imagelist[IMAGE_INDEX].getName());
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        imageView.setImageBitmap(imageUtils.decodeFile(uris[IMAGE_INDEX], (int) Math.ceil(dm.widthPixels * dm
+                .density * 0.3)));
     }
 
     @Override
@@ -164,5 +156,25 @@ public class SingleImageView extends Activity implements OnGestureListener {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         return gestureDetector.onTouchEvent(motionEvent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.single_image_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_info) {
+            SingleImageView.this.startActivity(new Intent(SingleImageView.this,
+                    InformationActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
